@@ -1,0 +1,24 @@
+{
+  "name": "testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "java -jar -Dwebdriver.chrome.driver='./chromedriver`' selenium-server-standalone-3.5.3.jar",
+    "test": "./node_modules/.bin/wdio wdio.conf.js"
+  },
+  "author": "vkrbt",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^4.0.1",
+    "selenium-webdriver": "^3.6.0",
+    "webdriverio": "^4.9.11"
+  },
+  "devDependencies": {
+    "wdio-chromedriver-service": "^0.1.1",
+    "wdio-dot-reporter": "0.0.9",
+    "wdio-mocha-framework": "^0.5.11",
+    "wdio-webpack-dev-server-service": "^1.1.0",
+    "wdio-webpack-service": "^1.0.1"
+  }
+}
