@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "java -jar -Dwebdriver.chrome.driver='./chromedriver`' selenium-server-standalone-3.5.3.jar",
+    "start": "java -jar -Dwebdriver.google-chrome.driver=./chromedriver selenium-server-standalone-3.5.3.jar",
     "test": "./node_modules/.bin/wdio wdio.conf.js"
   },
   "author": "vkrbt",

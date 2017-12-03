@@ -1,4 +1,5 @@
 node_modules
 errorShots
 chromedriver
-selenium-server-standalone-3.5.3
+selenium-server-standalone-*
+*.png
