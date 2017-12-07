@@ -1,28 +1,25 @@
 const assert = require('assert');
-const { base } = require('./urls');
+const MailPage = require('../pages/mail.page');
 
 const validEmail = 'asdrudes@gmail.com';
 const invalidEmail = 'mail@';
 
-browser.url(base);
+MailPage.open();
 
 describe('Subscribtion', () => {
   it('shouldn\'t be success if entered invalid email', () => {
-    browser.element('#fieldEmail').setValue(invalidEmail);
-    browser.element('.get_mail').click();
-    browser.waitForVisible('.modal-dialog');
-    const modalText = browser.element('.bootbox-body').getText();
-    assert.equal(modalText, 'E-mail is wrong');
+    MailPage.email.setValue(invalidEmail);
+    MailPage.subscribe();
+    MailPage.waitForDialog();
+    assert.equal(MailPage.modalText, 'E-mail is wrong');
+    MailPage.closeModal();
   });
 
   it('should be success if entered valid email', () => {
-    browser.pause(200);
-    $('[data-bb-handler=ok]').click();
-    browser.pause(2000);
-    browser.element('#fieldEmail').setValue(validEmail);
-    browser.element('.get_mail').click();
-    browser.waitForVisible('.modal-dialog');
-    const modalText = browser.element('.bootbox-body').getText();
-    assert.equal(modalText, 'Email already exist!');
+    MailPage.wait(500);
+    MailPage.email.setValue(validEmail);
+    MailPage.subscribe();
+    MailPage.waitForDialog();
+    assert.equal(MailPage.modalText, 'Email already exist!');
   });
 });

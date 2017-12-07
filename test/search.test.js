@@ -1,5 +1,6 @@
 const assert = require('assert');
-const { base, search } = require('./urls');
+const MainPage = require('../pages/main.page');
+const SearchPage = require('../pages/search.page');
 
 const searchData = {
   from: 'Minsk (Centralniy)',
@@ -8,54 +9,28 @@ const searchData = {
   date: '2017-12-17',
 }
 
-browser.url(base);
-
-const getInnerHtml = html => html.replace(/(<([^>]+)>)/ig, "");
+MainPage.open();
 
 describe('Search page', () => {
 
   it('shouldn\'t find anything with empty search query', () => {
-    $('button.btn.btn-primary.btn-lg').click();
-    const searchResults = $('#search-result').type;
-    assert.equal('NoSuchElement', searchResults)
+    MainPage.search();
+    assert.equal('NoSuchElement', SearchPage.results.type)
   });
 
   it('should be able to filling fields', () => {
-    const frame = browser.frame('booking');
-    frame
-      .$('.btn.dropdown-toggle.btn-default[title="Departure city"]').click()
-    frame
-      .$('.btn-group.bootstrap-select.form-control.open')
-      .$('.bs-searchbox')
-      .$('input')
-      .setValue(searchData.from);
-    frame
-      .$('.btn-group.bootstrap-select.form-control.open')
-      .$('.dropdown-menu.inner')
-      .$('.active')
-      .click();
+    SearchPage.departureCity = searchData.from;
+    SearchPage.wait(500);
 
-    browser.pause(500);
-
-    frame
-      .$('.btn-group.bootstrap-select.form-control.open')
-      .$('.bs-searchbox')
-      .$('input')
-      .setValue(searchData.to);
-    frame
-      .$('.btn-group.bootstrap-select.form-control.open')
-      .$('.dropdown-menu.inner')
-      .$('.active')
-      .click();
-
-    browser.pause(500);
+    SearchPage.departureCity = searchData.to;
+    SearchPage.wait(500);
 
     const dateField = frame.$('#date')
     dateField.setValue(searchData.wrongDate);
     const values = [].map.call(frame.$$('.selected.active'), item => getInnerHtml(item.$('span.text').getHTML()));
 
-    assert(values.indexOf(searchData.from) !== -1 &&
-      values.indexOf(searchData.to) !== -1 &&
+    assert(~values.indexOf(searchData.from) &&
+      ~values.indexOf(searchData.to) &&
       dateField.getValue() === searchData.wrongDate
     );
 

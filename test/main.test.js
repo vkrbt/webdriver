@@ -1,32 +1,25 @@
 const assert = require('assert');
-const { base, search } = require('./urls');
+const { search } = require('./urls');
+const MainPage = require('../pages/main.page');
 
-browser.url(base);
+MainPage.open()
 
 describe('Main page', () => {
   it('should have the right title', () => {
-    const title = browser.getTitle();
-    assert.equal(title, 'Bus tickets for international routes | ECOLINES');
+    assert.equal(MainPage.title, 'Bus tickets for international routes | ECOLINES');
   });
 
   it('should have email input', () => {
-    const emailBtn = browser.element('#fieldEmail').getAttribute('placeholder');
-    assert.equal(emailBtn, 'Electronic mail');
+    assert.equal(MainPage.emailPlaceholder, 'Electronic mail');
   });
 
   it('should show language button on desktop version of site', () => {
-    browser.setViewportSize({
-      width: 992,
-      height: 500,
-    });
-    browser.windowHandleSize();
-    const languageButton = $('#lang_long').getText();
-    assert.equal(languageButton, 'English');
+    MainPage.resize(992, 500);
+    assert.equal(MainPage.languageButtonText, 'English');
   });
 
   it('should redirect if search button hit', () => {
-    $('button.btn.btn-primary.btn-lg').click();
-    const currentUrl = browser.getUrl();
-    assert(currentUrl.indexOf(search) != -1);
+    MainPage.search();
+    assert(~MainPage.url.indexOf(search));
   });
 });
