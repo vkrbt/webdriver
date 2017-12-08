@@ -3,10 +3,7 @@ const events = require('events');
 
 const start = 'start';
 const suiteStart = 'suite:start';
-const hookStart = 'hook:start';
-const hookEnd = 'hook:end';
 const testStart = 'test:start';
-const testEnd = 'test:end';
 const testPass = 'test:pass';
 const testFail = 'test:fail';
 const suiteEnd = 'suite:end';
